@@ -1,7 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import VendorForm
 from accounts.forms import UserProfileForm
-from django.shortcuts import get_object_or_404
 from accounts.models import UserProfile
 from .models import Vendor
 from django.contrib import messages
