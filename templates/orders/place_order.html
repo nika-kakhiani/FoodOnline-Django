@@ -66,14 +66,16 @@
 
                   <div class="">
                     <table class=table>
-                      {% for item in cart_items %}
-                      <tr>
-                        <td><img src="{{ item.fooditem.Image.url }}" width="40" alt="Food Image"></td>
-                        <td><b>{{ item.fooditem}}</b></td>
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.fooditem.price }}</td>
-                      </tr>
-                      {% endfor %}
+                      <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                          <td><img src="{{ item.fooditem.Image.url }}" width="40" alt="Food Image"></td>
+                          <td><b>{{ item.fooditem}}</b></td>
+                          <td>{{ item.quantity }}</td>
+                          <td>{{ item.fooditem.price }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
                     </table>
                     <ul>
                       <li style="list-style-type: none;">
@@ -142,6 +144,7 @@
         var url = "{% url 'payments' %}"
         var order_number = "{{ order.order_number }}"
         const csrftoken = getCookie('csrftoken');
+        var order_complete = "{% url 'order_complete' %}"
         console.log("csrftoken=====>>>>", csrftoken)
 
         paypal.Buttons({
@@ -177,9 +180,9 @@
 
 
                     // Replace the above to show a success message within this page, e.g.
-                    // const element = document.getElementById('paypal-button-container');
-                    // element.innerHTML = '';
-                    // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                    const element = document.getElementById('paypal-button-container');
+                    element.innerHTML = '';
+                    element.innerHTML = '<h4 class="text-center"><i class="fa fa-spinner fa-spin"></i>Please wait...</h4>';
                     // Or go to another URL:  actions.redirect('thank_you.html');
                 });
             }
@@ -198,7 +201,8 @@
               "csrfmiddlewaretoken": csrftoken,
             },
             success: function(response){
-              console.log("response==>>", response)
+              console.log("response==>", response)
+              window.location.href = order_complete +"?order_no="+response.order_number+"&trans_id="+response.transaction_id
             }
           })
         }
