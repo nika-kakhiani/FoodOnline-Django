@@ -103,7 +103,11 @@
                           <span id="total">{{ grand_total }}</span>
                         </span>
                       </li>
-                      <div id="paypal-button-container"></div>
+                      {% if order.payment_method == "PayPal" %}
+                        <div id="paypal-button-container"></div>
+                      {% elif order.payment_method == "RazorPay" %}
+                        <button type="button" name="button" class="btn btn-danger w-100">Pay with RazorPay</button>
+                      {% endif %}
                     </ul>
                   </div>
 
